@@ -1,0 +1,12 @@
+<script src="{{ site.baseurl }}/assets/js/libs/jquery-2.2.0.min.js"></script>
+<script src="{{ site.baseurl }}/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="{{ site.baseurl }}/assets/js/script.js"></script>
+<script>
+    (function(win, doc, script) {
+        {% if site.google_analytics %}
+        // Google Analytics
+        win._gaq=[["_setAccount",'{{ site.google_analytics.account }}'],["_trackPageview"]];
+        add(('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js', 'ga');
+        {% endif %}
+    }(window, document, 'script'));
+</script>

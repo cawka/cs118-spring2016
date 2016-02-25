@@ -1,0 +1,21 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>{% if page.title and page.title != '' %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+<meta name="author" content="{{ site.author }}">
+<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+<!-- Le styles -->
+
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/bootstrap/css/bootstrap.min.css" id="bootstrap">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/font-awesome-4.5.0/css/font-awesome.min.css" id="font-awesome">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+
+<!-- Font Awesome -->
+<link href="{{ site.baseurl }}/assets/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="{{ site.baseurl }}/assets/js/libs/html5shiv.js"></script>
+<![endif]-->
