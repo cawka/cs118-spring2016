@@ -38,19 +38,19 @@ This course provides an introduction to fundamental concepts in the design and i
   <table class="table table-striped table-hover table-bordered">
     <tr>
       <td>Homeworks</td>
-      <td>20%</td>
+      <td>16%</td>
     </tr>
     <tr>
       <td>Programming Projects</td>
-      <td>30% (15%/15%)</td>
+      <td>40% (20%/20%)</td>
     </tr>
     <tr>
       <td>Midterm exam</td>
-      <td>20%</td>
+      <td>22%</td>
     </tr>
     <tr>
       <td>Final exam</td>
-      <td>20%</td>
+      <td>22%</td>
     </tr>
   </table>
 </div>
