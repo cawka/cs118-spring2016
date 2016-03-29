@@ -5,64 +5,66 @@ title: Project 1
 
 **<font color='red'>The project webpage is not ready yet. More details will be added later.</font>**
 
-# Overview
+# Project 1: Simple HTTP Client and Server
 
-In this project, you will learn the basic of HTTP protocol and socket programming through developing a simple Web server and crawler.
+In this project, you will learn socket programming and the basic of HTTP protocol through developing a simple Web server and client.
 
 All implementations should be written in C++ using [BSD sockets](http://en.wikipedia.org/wiki/Berkeley_sockets).
-No high-level network-layer abstractions (like Boost.Asio or similar) are allowed in this project.
-You are allowed to use some high-level abstractions for parts that are not directly related to networking, such as string parsing, multi-threading.
+<span class="alert-warning">No high-level network-layer abstractions (like Boost.Asio or similar) are allowed in this project.</span>
+You are allowed to use some high-level abstractions, including C++11 extensions, for parts that are not directly related to networking, such as string parsing, multi-threading.
 We will also accept implementations written in C, however use of C++ is preferred.
 
 
+## Task Description
 
-# Task Description
+The project contains two parts: a Web server and a Web client.
+The Web server accepts an HTTP request, parses the request, and looks up the requested file in the local file system.
+If the file exists, the server returns the content of the file as part of HTTP response,
+otherwise returning HTTP response with the corresponding error code.
 
-The project contains two parts: a Web server and a Web crawler.
-The Web server accepts an HTTP request, parses the request, looks up the requested file in local file system.
-If the file exists, the server creates an HTTP response with the requested file as the content,
-otherwise the server creates an HTTP response with the corresponding error code.
-The response will be sent back to the requester through the same channel where the request is received from.
+After retrieving the response from the Web server, the client saves the retrieved file in the local file system.
 
-The Web crawler, after retrieving the response from the Web server, save the retrieved file in local file system.
-Moreover, the crawler will also inspect the retrieved file to see if there is any other file to crawl (you can assume all the responses will be [HTML](http://www.w3schools.com/html/default.asp) files).
-If there is a file that the crawler has not fetched before, the crawler will continue the fetching until there is no new file to fetch. 
+The basic part of this project only requires you to implement HTTP 1.0: the client and server will talk to each other through **non-persistent** connections.
+If you client and/or server supports HTTP 1.1, you will get bonus points, see details in [Grading](#http1.1)).
 
-The basic part of this project only requires you to implement HTTP 1.0.
-That is, the crawler and server talk to each other through **non-persistent** connections (however, you can get bonus points if your crawler and server can support HTTP 1.1, see details in [Grading](#http1.1)).
+## How to approach the project
 
-You may want to approach the project in three steps: **HTTP message abstraction**, **Web crawler**, **Web server**.
+You may want to approach the project in three stages: 
 
-## HTTP message abstraction
+1. Implementing **HTTP message abstraction**
+2. Implementing **Web client** module
+3. Implementing **Web server** module.
 
-As the first step, you need to implement several helper classes that can help you to construct/parse an HTTP message (request/response).
-For example, you may want to implement an `HTTPRequest` class that can help you to customize the HTTP request header and encode the HTTP request into a string of bytes of the wire format. Some high level pseudo code would look like:
+### HTTP message abstraction
 
-    HTTPRequest request;
+As the first step, you need to implement several helper classes that can help you to parse and construct an HTTP message, which can be either HTTP request or HTTP response.
+For example, you may want to implement an `HttpRequest` class that can help you to customize the HTTP request header and encode the HTTP request into a string of bytes of the wire format.  Some high-level pseudo code would look like:
+
+    HttpRequest request;
     request.setUrl(...);
     request.setMethod(...);
     vector<uint8_t> wire = request.endcode();
 
-Note that, you only needs to implement HTTP `GET` request in this project.
+Note that you only needs to implement HTTP `GET` request in this project.
 
-For parsing, you may also want to implement an `HTTPRequest` constructor method that creates an `HTTPRequest` object from the wire encoded request.
+You may also want to implement an `HttpRequest` constructor method that creates an `HttpRequest` object from the wire encoded request.
 
-    HTTPRequest request(wire);
+    HttpRequest request(wire);
 
-Similarly, you may also want to implement an `HTTPResponse` class that can facilitate processing HTTP responses.
+Similarly, you may also want to implement an `HttpResponse` class that can facilitate processing HTTP responses.
 
-## Web server
+### Web server
 
 After finishing HTTP abstraction, you can start building your Web server.
-The eventual output is a binary `web-server`, which accepts three arguments: the hostname of the Web site, the port number, and the local file directory.
+The eventual output is a binary `web-server`, which must accept three command-line arguments: hostname of the Web site, a port number, and a directory name.
 
     $ web-server [hostname] [port] [file-dir]
 
-For example, the command below will starts the Web server with host name `localhost` listening port `1234` and serving files under the directory `/tmp`.
+For example, the command below should start the Web server with host name `localhost` listening on port `4000` and serving files from the directory `/tmp`.
 
-    $ web-server localhost 1234 /tmp
+    $ ./web-server localhost 4000 /tmp
 
-The default arguments for `web-server` is `localhost`, `4000`, and `.` (current working directory).
+The default arguments for `web-server` must be `localhost`, `4000`, and `.` (current working directory).
 
 The Web server needs to convert the hostname to an IP address and opens a listening socket on the IP address and the specified port number.
 Through the listening socket, the Web server accepts the connection requests from clients and establishes connections to the clients.
@@ -70,28 +72,27 @@ Through the established connection, the Web server should receive the HTTP reque
 The Web server **must** handle concurrent connections.
 In other words, the web server can talk to multiple clients at the same time.
 
-
 After implementing the Web server, you can test it by visting it through some widely used Web clients (e.g., Firefox, wget) on your local system. 
 
-## Web crawler
+### Web client
 
-After finishing the Web server, you can start building your Web crawler.
-The eventual output is also a binary `web-crawler`, which accepts single argument: the initial URL.
+After finishing the Web server, you can start building your Web client.
+The eventual output is also a binary `web-client`, which accepts URL as a single argument.
 
-    $ web-crawler [URL]
+    $ ./web-client [URL]
 
-For example, the command below will start the Web crawler that crawls all the files linked on the an webpage `http://localhost:4000/index.html`.
+For example, the command below should start the Web client that fetches `index.html` file from your webserver:
 
-    $ web-crawler http://localhost:4000/index.html
+    $ ./web-client http://localhost:4000/index.html
 
-The Web crawler first tries to connect to the Web server as specified in the URL.
-Once the connection is established, the crawler can construct the HTTP request and send it to the Web server, expecting the HTML file in response.
-After receiving the response, the crawler needs to parse it and find more URLs to retrieve.
-All the subsequent retrievals are done in the same way as the initial one.
+The Web client first tries to connect to the Web server as specified in the URL.
+Once the connection is established, the client constructs the HTTP request and sends it to the Web server, expecting a response.
+After receiving the response, the client needs to parse it to distinguish success or failure codes.
+Finally, if the file is successfully retrieved, it should be saved in the current directory using the name inferred from the URL.
 
-You can also test your implementation by crawling some real but simple Website or the Web server you just implemented. 
+You can also test your implementation by fetching data from some real websites or the web server you just implemented. 
 
-# Environment Setup
+## Environment Setup
 
 You will do this project on a virtual machine powered by VirtualBox.
 
@@ -101,14 +102,15 @@ Here are the instructions to set up your environment.
 
 2. (NOT finished yet...)
 
-# Submission
+## Submission
 
 
 To submit your project, you need to prepare:
 
-1. all your source code and Makefile (no binaries);
-2. a PDF project report that describes
-   * the high level design of your server and crawler;
+1. All your source code and Makefile (no binaries) as `.tar.gz` archive.
+
+2. A PDF project report that describes
+   * the high level design of your server and client;
    * the problems your ran into and how you solved the problems;
    * additional instructions to build your project (if your project uses some other libraries);
    * how you tested your code and why.
@@ -122,22 +124,20 @@ Please make sure:
 2. no unnecessary files in the package.
 
 Otherwise, your will not get any credit.
-
    
-# Grading
+## Grading
 
 Your code will be first checked by a software plagiarism detecting tool. If we find any plagiarism, you will not get any credit.
 
-Your code will then be automatically tested in some testing scenarios. If your code can pass all the test cases, you will get full credit.
+Your code will then be automatically tested in some testing scenarios. If your code can pass all our automated test cases, you will get the full credit.
 
-
-##  Bonus points
+###  Bonus points
 
 You can have:
 
-* 5% extra points: if your crawler can handle HTTP request timeout;
-* 10% extra points: if you can implement concurrent Web server using both synchronous and asynchronous programming techniques;
-* <a name="http1.1"></a>10% extra points: if both of crawler and server can support HTTP 1.1 instead of HTTP 1.0. More specifically, the crawler should be able to talk to the server over a persistent connection, and use pipeline if necessary.
+* 1 extra point: if your client can handle HTTP request timeout;
+* 2 extra points: if you can implement concurrent Web server using both synchronous and asynchronous programming techniques;
+* <a name="http1.1"></a>2 extra points: if the client and server can support HTTP 1.1 in addition to HTTP 1.0: the client should be able to talk to the server over persistent connections, using pipelines if necessary.
 
 
 
