@@ -123,7 +123,24 @@ Here are the instructions to set up your environment.
    * If you want to sync up files between your host machine and the guest VM, vagrant provides a very convenient [sync folder](https://www.vagrantup.com/docs/getting-started/synced_folders.html).
    * If you are using Windows, read [this article](http://www.sitepoint.com/getting-started-vagrant-windows/) to help yourself set up the environment.
 
-3. (NOT finished yet...)
+3. Now you can logout the SSH and get back to the host machine.
+   * Checkout the project source code at the same directory
+
+         $ git clone git@github.com:bruinfish/cs118-s16-proj1.git
+
+     Note that the directory is shared with the VM. Login the VM, you should also be able to find the source code at /vagrant
+
+         $ vagrant ssh
+         $ ls /vagrant
+         cs118-s16-proj1/ Vagrantfile
+
+   * The code base contains the basic `Makefile` and two empty files `web-server.cpp` and `web-client.cpp`.
+
+         $ cd /vagrant/cs118-s16-proj1
+         $ ls .
+         Makefile  web-client.cpp  web-server.cpp
+
+   * You are now free to add more files and modify the Makefile to make the `web-server` and `web-client` full-fledged implementation. 
 
 ## Submission
 
