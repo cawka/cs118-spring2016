@@ -49,7 +49,8 @@ Note that you only needs to implement HTTP `GET` request in this project.
 
 You may also want to implement an `HttpRequest` constructor method that creates an `HttpRequest` object from the wire encoded request.
 
-    HttpRequest request(wire);
+    HttpRequest request;
+    request.consume(wire);
 
 Similarly, you may also want to implement an `HttpResponse` class that can facilitate processing HTTP responses.
 
@@ -79,7 +80,7 @@ After implementing the Web server, you can test it by visting it through some wi
 After finishing the Web server, you can start building your Web client.
 The eventual output is also a binary `web-client`, which accepts URL as a single argument.
 
-    $ ./web-client [URL]
+    $ ./web-client [URL] ...
 
 For example, the command below should start the Web client that fetches `index.html` file from your webserver:
 
