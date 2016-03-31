@@ -98,9 +98,32 @@ You will do this project on a virtual machine powered by VirtualBox.
 
 Here are the instructions to set up your environment.
 
-1. Creating your virtual machine using [vagrant](https://www.vagrantup.com/).
+1. If you haven't installed VirtualBox yet, [download](https://www.virtualbox.org/wiki/Downloads) and install it
 
-2. (NOT finished yet...)
+2. Creating your virtual machine using [vagrant](https://www.vagrantup.com/).
+   * Download and install [vagrant](https://www.vagrantup.com/downloads.html).
+   * Create a directory for your project, e.g.,
+    
+         $ mkdir ~/cs118-proj1
+         $ cd ~/cs118-proj1
+
+   * Download [Vagrantfile](Vagrantfile) to the project directory, or
+
+         $ wget http://web.cs.ucla.edu/classes/spring16/cs118/Vagrantfile 
+  
+   * Now you can turn on the VM
+
+         $ vagrant up
+
+   * And establish an SSH session to it
+
+         $ vagrant ssh
+
+   * Now you should be able to access the VM as you login it through SSH. If you want to open another SSH session, just open another terminal and run `vagrant ssh`.
+   * If you want to sync up files between your host machine and the guest VM, vagrant provides a very convenient [sync folder](https://www.vagrantup.com/docs/getting-started/synced_folders.html).
+   * If you are using Windows, read [this article](http://www.sitepoint.com/getting-started-vagrant-windows/) to help yourself set up the environment.
+
+3. (NOT finished yet...)
 
 ## Submission
 
