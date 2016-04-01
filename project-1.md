@@ -3,9 +3,9 @@ layout: page
 title: Project 1
 ---
 
-**<font color='red'>The project webpage is not ready yet. More details will be added later.</font>**
-
 # Project 1: Simple HTTP Client and Server
+
+{% include project-1-update.html %}
 
 In this project, you will learn socket programming and the basic of HTTP protocol through developing a simple Web server and client.
 
@@ -73,7 +73,7 @@ Through the established connection, the Web server should receive the HTTP reque
 The Web server **must** handle concurrent connections.
 In other words, the web server can talk to multiple clients at the same time.
 
-After implementing the Web server, you can test it by visting it through some widely used Web clients (e.g., Firefox, wget) on your local system. 
+After implementing the Web server, you can test it by visting it through some widely used Web clients (e.g., Firefox, wget) on your local system.
 
 ### Web client
 
@@ -91,7 +91,46 @@ Once the connection is established, the client constructs the HTTP request and s
 After receiving the response, the client needs to parse it to distinguish success or failure codes.
 Finally, if the file is successfully retrieved, it should be saved in the current directory using the name inferred from the URL.
 
-You can also test your implementation by fetching data from some real websites or the web server you just implemented. 
+You can also test your implementation by fetching data from some real websites or the web server you just implemented.
+
+### <font color='gree'>Hints</font>
+
+About HTTP abstractions:
+
+*  How many classes you need to create for the HTTP abstraction?
+   * Can you use inheritance to reduce your workload?
+
+*  If we have the complete HTTP message, it is trivial to decode it.
+   * How do we know we have received the complete message? especially for HTTP response?
+   * For HTTP GET request, we know it ends with `\r\n\r\n`, but what if we only get part of it from `read` or `recv`, e.g., only `\r`?
+   * For HTTP response, is it possible to decode the whole response before we get the complete message?
+
+Here are some hints of using multi-thread techniques to implement the Web server.
+
+*  For the Web server, you may have the main thread listening (and accepting) incoming **connection requests**.
+   * Any special socket API you need here?
+   * How to keep the listening socket receiving new requests?
+
+*  Once you accept a new connection, create a child thread for the new connection.
+   * Is the new connection using the same socket as the one used by the main thread?
+
+*  Note that only HTTP 1.0 is required for the basic part of this project. HTTP 1.0 uses non-persistent connection. In other word, for each connection, only two messages are exchanged: a HTTP request and a HTTP response.
+   * Does this assumption simplify the job of the child thread?
+
+If you want to approach the problem using asynchronous programming model, here are some hints:
+
+*  Understand the working mechanism of [`select` socket API](http://linux.die.net/man/2/select). In fact, you can treat `select` as a monitor of all your connections (even the listening socket).
+
+*  Use `select` to figure out what event happened on which connection, and process the event correctly.
+   * how to distinguish the listening socket and the others?
+
+Here are some sample code:
+
+* A simple server that echoes back anything sent by the client: [server.cpp](server.cpp), [client.cpp](client.cpp)
+
+Other resources
+
+* [Guide to Network Programming Using Sockets](http://beej.us/guide/bgnet/)
 
 ## Environment Setup
 
@@ -179,6 +218,9 @@ You can have:
 * 1 extra point: if your client can handle HTTP request timeout;
 * 2 extra points: if you can implement concurrent Web server using both synchronous and asynchronous programming techniques;
 * <a name="http1.1"></a>2 extra points: if the client and server can support HTTP 1.1 in addition to HTTP 1.0: the client should be able to talk to the server over persistent connections, using pipelines if necessary.
+
+   
+
 
 
 
