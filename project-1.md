@@ -166,7 +166,7 @@ Here are the instructions to set up your environment.
 3. Now you can logout the SSH and get back to the host machine.
    * Checkout the project source code at the same directory
 
-         $ git clone git@github.com:bruinfish/cs118-s16-proj1.git
+         $ git clone https://github.com/bruinfish/cs118-s16-proj1.git
 
      Note that the directory is shared with the VM. Login the VM, you should also be able to find the source code at /vagrant
 
