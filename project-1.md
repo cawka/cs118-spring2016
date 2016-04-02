@@ -3,14 +3,24 @@ layout: page
 title: Project 1
 ---
 
+* toc
+{:toc}
+
 # Project 1: Simple HTTP Client and Server
 
-{% include project-1-update.html %}
+## Revisions
+
+* **April 2, 2016**: Added general hints of the project and instructions how to set up environment
+* **March 29, 2016**: Added basic project description
+
+More hints and resources may be added later.
+
+## Overview
 
 In this project, you will learn socket programming and the basic of HTTP protocol through developing a simple Web server and client.
 
 All implementations should be written in C++ using [BSD sockets](http://en.wikipedia.org/wiki/Berkeley_sockets).
-<span class="alert-warning">No high-level network-layer abstractions (like Boost.Asio or similar) are allowed in this project.</span>
+**No high-level network-layer abstractions (like Boost.Asio or similar) are allowed in this project.**
 You are allowed to use some high-level abstractions, including C++11 extensions, for parts that are not directly related to networking, such as string parsing, multi-threading.
 We will also accept implementations written in C, however use of C++ is preferred.
 
@@ -93,7 +103,7 @@ Finally, if the file is successfully retrieved, it should be saved in the curren
 
 You can also test your implementation by fetching data from some real websites or the web server you just implemented.
 
-### <font color='gree'>Hints</font>
+## Hints
 
 About HTTP abstractions:
 
@@ -124,9 +134,9 @@ If you want to approach the problem using asynchronous programming model, here a
 *  Use `select` to figure out what event happened on which connection, and process the event correctly.
    * how to distinguish the listening socket and the others?
 
-Here are some sample code:
+Here is some sample code:
 
-* A simple server that echoes back anything sent by the client: [server.cpp](server.cpp), [client.cpp](client.cpp)
+* A simple server that echoes back anything sent by the client: [server.cpp]({{ site.baseurl }}/assets/hints/server.cpp), [client.cpp]({{ site.baseurl }}/assets/hints/client.cpp)
 
 Other resources
 
@@ -134,56 +144,62 @@ Other resources
 
 ## Environment Setup
 
-You will do this project on a virtual machine powered by VirtualBox.
+The best way to guarantee full credit for the project is to do project development using a Ubuntu 14.04-based virtual machine.
 
-Here are the instructions to set up your environment.
+You can easily create an image in your favourite virtualization engine (VirtualBox, VMware) using the Vagrant platform and steps outlined below.
 
-1. If you haven't installed VirtualBox yet, [download](https://www.virtualbox.org/wiki/Downloads) and install it
+<!-- , or use [this pre-created VirtualBox image](). -->
 
-2. Creating your virtual machine using [vagrant](https://www.vagrantup.com/).
-   * Download and install [vagrant](https://www.vagrantup.com/downloads.html).
-   * Create a directory for your project, e.g.,
-    
-         $ mkdir ~/cs118-proj1
-         $ cd ~/cs118-proj1
 
-   * Download [Vagrantfile](Vagrantfile) to the project directory, or
+### Set up Vagrant and create VM instance
 
-         $ wget http://web.cs.ucla.edu/classes/spring16/cs118/Vagrantfile 
-  
-   * Now you can turn on the VM
+1. Download and install your favourite virtualization engine, e.g., [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-         $ vagrant up
+2. Download and install [Vagrant tools](https://www.vagrantup.com/downloads.html) for your platform
 
-   * And establish an SSH session to it
+3. Set up project and VM instance
 
-         $ vagrant ssh
+  * Clone project template
 
-   * Now you should be able to access the VM as you login it through SSH. If you want to open another SSH session, just open another terminal and run `vagrant ssh`.
-   * If you want to sync up files between your host machine and the guest VM, vagrant provides a very convenient [sync folder](https://www.vagrantup.com/docs/getting-started/synced_folders.html).
-   * If you are using Windows, read [this article](http://www.sitepoint.com/getting-started-vagrant-windows/) to help yourself set up the environment.
+        git clone https://github.com/cawka/spring16-cs118-project1 ~/cs118-proj1
+        cd ~/cs118-proj1
 
-3. Now you can logout the SSH and get back to the host machine.
-   * Checkout the project source code at the same directory
+  * Initialize VM
 
-         $ git clone https://github.com/bruinfish/cs118-s16-proj1.git
+        vagrant up
 
-     Note that the directory is shared with the VM. Login the VM, you should also be able to find the source code at /vagrant
+  * To establish an SSH session to the created VM, run
 
-         $ vagrant ssh
-         $ ls /vagrant
-         cs118-s16-proj1/ Vagrantfile
+        vagrant ssh
 
-   * The code base contains the basic `Makefile` and two empty files `web-server.cpp` and `web-client.cpp`.
+    If you are using Putty on Windows platform, `vagrant ssh` will return information regarding the IP address and the port to connect to your virtual machine.
 
-         $ cd /vagrant/cs118-s16-proj1
-         $ ls .
-         Makefile  web-client.cpp  web-server.cpp
+4. Work on your project
 
-   * You are now free to add more files and modify the Makefile to make the `web-server` and `web-client` full-fledged implementation. 
+All files in `~/cs118-proj1` folder on the host machine will be automatically synchronized with `/vagrant` folder on the virtual machine.  For example, to compile your code, you can run the following commands:
+
+    vagrant ssh
+    cd /vagrant
+    make
+
+
+### Notes
+
+* If you want to open another SSH session, just open another terminal and run `vagrant ssh` (or create a new Putty session).
+
+* If you are using Windows, read [this article](http://www.sitepoint.com/getting-started-vagrant-windows/) to help yourself set up the environment.
+
+* The code base contains the basic `Makefile` and two empty files `web-server.cpp` and `web-client.cpp`.
+
+        $ vagrant ssh
+        vagrant@vagrant-ubuntu-trusty-64:~$ cd /vagrant
+        vagrant@vagrant-ubuntu-trusty-64:/vagrant$ ls
+        Makefile  README.md  Vagrantfile  web-client.cpp  web-server.cpp
+
+
+* You are now free to add more files and modify the Makefile to make the `web-server` and `web-client` full-fledged implementation. 
 
 ## Submission
-
 
 To submit your project, you need to prepare:
 

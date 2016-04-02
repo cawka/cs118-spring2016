@@ -3,4 +3,4 @@ layout: page
 title: Homeworks
 ---
 
-TBD
+Assigned and must be submitted through [CCLE](https://ccle.ucla.edu)
