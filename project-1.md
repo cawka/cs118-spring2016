@@ -153,11 +153,13 @@ You can easily create an image in your favourite virtualization engine (VirtualB
 
 ### Set up Vagrant and create VM instance
 
-1. Download and install your favourite virtualization engine, e.g., [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+**Note that all example commands are executed on the host machine (your laptop), e.g., in Terminal.app (or iTerm2.app) on OS X, cmd in Windows, and console or xterm on Linux.  After the last step (`vagrant ssh`) you will get inside the virtual machine and can compile your code there.**
 
-2. Download and install [Vagrant tools](https://www.vagrantup.com/downloads.html) for your platform
+- Download and install your favourite virtualization engine, e.g., [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-3. Set up project and VM instance
+- Download and install [Vagrant tools](https://www.vagrantup.com/downloads.html) for your platform
+
+- Set up project and VM instance
 
   * Clone project template
 
@@ -172,15 +174,15 @@ You can easily create an image in your favourite virtualization engine (VirtualB
 
         vagrant ssh
 
-    If you are using Putty on Windows platform, `vagrant ssh` will return information regarding the IP address and the port to connect to your virtual machine.
+  If you are using Putty on Windows platform, `vagrant ssh` will return information regarding the IP address and the port to connect to your virtual machine.
 
-4. Work on your project
+- Work on your project
 
-All files in `~/cs118-proj1` folder on the host machine will be automatically synchronized with `/vagrant` folder on the virtual machine.  For example, to compile your code, you can run the following commands:
+  All files in `~/cs118-proj1` folder on the host machine will be automatically synchronized with `/vagrant` folder on the virtual machine.  For example, to compile your code, you can run the following commands:
 
-    vagrant ssh
-    cd /vagrant
-    make
+        vagrant ssh
+        cd /vagrant
+        make
 
 
 ### Notes
