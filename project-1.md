@@ -10,6 +10,7 @@ title: Project 1
 
 ## Revisions
 
+* **April 8, 2016**: Added sample code for name resolution and multi-threading (discussion slide deck is uploaded to CCLE).
 * **April 2, 2016**: Added general hints of the project and instructions how to set up environment
 * **March 29, 2016**: Added basic project description
 
@@ -137,6 +138,10 @@ If you want to approach the problem using asynchronous programming model, here a
 Here is some sample code:
 
 * A simple server that echoes back anything sent by the client: [server.cpp]({{ site.baseurl }}/assets/hints/server.cpp), [client.cpp]({{ site.baseurl }}/assets/hints/client.cpp)
+
+* Domain name resolution: [showip.cpp]({{ site.baseurl }}/assets/hints/showip.cpp)
+
+* A simple multi-thread countdown: [multi-thread.cpp]({{ site.baseurl }}/assets/hints/multi-thread.cpp)
 
 Other resources
 
