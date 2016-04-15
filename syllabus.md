@@ -55,7 +55,7 @@ This course provides an introduction to fundamental concepts in the design and i
   </table>
 </div>
 
-- Weekly homework will be assigned after the 2nd lecture every week and must be submitted by 11:59pm next Tuesday.
+- Weekly homework will be assigned after the 2nd lecture every week and must be submitted by 11:00pm next Thursday.
 - Midterm Exam
 - Final Exam
 - Two programming projects
