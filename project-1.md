@@ -10,6 +10,7 @@ title: Project 1
 
 ## Revisions
 
+* **April 18, 2016**: Clarified the timeout in the bonus requirements.
 * **April 15, 2016**: Added sample code of using `select` to implement asynchronous programming
 * **April 8, 2016**: Added sample code for name resolution and multi-threading (discussion slide deck is uploaded to CCLE).
 * **April 2, 2016**: Added general hints of the project and instructions how to set up environment
@@ -241,7 +242,7 @@ Your code will then be automatically tested in some testing scenarios. If your c
 
 You can have:
 
-* 1 extra point: if your client can handle HTTP request timeout;
+* 1 extra point: if your client/server can handle HTTP request timeout;
 * 2 extra points: if you can implement concurrent Web server using both synchronous and asynchronous programming techniques;
 * <a name="http1.1"></a>2 extra points: if the client and server can support HTTP 1.1 in addition to HTTP 1.0: the client should be able to talk to the server over persistent connections, using pipelines if necessary.
 
