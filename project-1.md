@@ -10,6 +10,7 @@ title: Project 1
 
 ## Revisions
 
+* **April 21, 2016**: Clarified the requirements on HTTP responses.
 * **April 18, 2016**: Clarified the timeout in the bonus requirements.
 * **April 15, 2016**: Added sample code of using `select` to implement asynchronous programming
 * **April 8, 2016**: Added sample code for name resolution and multi-threading (discussion slide deck is uploaded to CCLE).
@@ -117,6 +118,10 @@ About HTTP abstractions:
    * How do we know we have received the complete message? especially for HTTP response?
    * For HTTP GET request, we know it ends with `\r\n\r\n`, but what if we only get part of it from `read` or `recv`, e.g., only `\r`?
    * For HTTP response, is it possible to decode the whole response before we get the complete message?
+
+*  You may assume the size of requested files is less than 1GB.
+
+*  Your implementation must support three error codes: `200 OK`, `400 Bad request`, `404 Not found`. All the other error codes (e.g., `403 Forbidden`, `501 Not implemented`, `505 HTTP version not supported`) are optional.
 
 Here are some hints of using multi-thread techniques to implement the Web server.
 
