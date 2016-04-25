@@ -43,21 +43,14 @@ TBD
 
 - The initial window size starts from 1.
 
-- The retransmission time out value XXX milliseconds
+- The retransmission time out value 500 milliseconds
 
 - The client should establish a connection to the server by using three-way handshake.
 During the handshake, the server has to send its initial sequence number to the client.
 
-- After establishing the connection, The client will first send a HTTP request message to the server.
-If the file exists, the server will divide the entire file into multiple packets,
-and then add some header information to each packet before sending them to the client.
-The maximum packet size is 1K (1024) bytes including all the headers.
+- After establishing the connection, The client will first send a file request to the server. If the file exists, the server will divide the entire file into multiple packets, and then add some header information to each packet before sending them to the client. The maximum packet size is 1K (1024) bytes including all the headers.
 
-- It is up to you what information you want to include in the header (e.g. Source, Destination port etc...),
-but you will at least need a sequence number field.
-You are free to define what kind of messages you will require, and the format of the messages.
-You can create a large file being requested on your own, but make sure the file is
-transmitted in multiple packets.
+- You have to design your own TCP header for this project. It is up to you what information you want to include in the header (e.g. Sequence number, Acknowledge number, and etc...), but you will at least need a sequence number field. You are free to define what kind of messages you will require, and the format of the messages.
 
 - Note that your programs will act as both a network application (file transfer program) as well as a reliable
 transport layer protocol built over the unreliable UDP transport layer.
@@ -78,7 +71,6 @@ Your server has to adjust the window size depending on the link status.
 - Slow start: the window size will be doubled until it meets the slow start threshold value.
 - Congestion Avoidance: the window size added by one if the window size is larger than ssthresh.
 - If a packet is lost, the server has to adjust the window size and also the ssthresh.
-- if the server receives 3 duplicate ACKs, then it has to use fast retransmission and fast recovery.
 
 
 ## Hints
@@ -101,15 +93,28 @@ give you partial credit. So please do the project incrementally.
 
 - You must use an UDP socket for both sender and receiver.
 
-- You should print messages to the screen when the server or the client is sending or receiving packets.  Your message should include information:
+- You should print messages to the screen when the server or the client is sending or receiving packets. There
+are four types of output messages and should follow the formats below.
 
-    * whether it is a DATA packet, an ACK or a retransmission packet
-    * the sequence number
-    * packet lost
-    * timer value
-    * etc.
+    * Server: Sending data packets
 
-    Such messages will be helpful for you to debug the programs, and we can use them to examine the correctness of your programs.
+	Sending datampacket [Sequence number] [CWND] [SSThresh]
+	example output: Sending data packet 5096 4 8 
+
+    * Server: Receiving ACK packets
+
+	Receiving ACK packet [ACK number]
+	example output: Receiving ACK packet 5096
+
+    * Client: Sending ACK packets
+
+	Sending ACK packet [ACK number]
+	example output: Sending ACK packet 5096
+
+    * Client: Receiving data packets 
+
+	Receiving data packet [Sequence number]
+	example output: Receiving data packet 5096
 
 - The maximum packet size is 1Kbytes (1024 bytes) including a header.
 
@@ -117,7 +122,15 @@ give you partial credit. So please do the project incrementally.
 
 - The sequence number is given in the unit of bytes as well. The maximum sequence number is 30 Kbytes. You have to reset back the sequence number when it reaches the maximum value.
 
-- Timer should work properly for each transmitted packet.
+- Packet retransmission should be triggered when the timer times out.
+
+- Here are default values for some variables.
+
+    * Maximum packet length: 1 Kbyte 
+    * Maximum sequence number: 30 Kbytes
+    * Initial window size: 1 Kbyte
+    * Initial slow start threshold: 8 Kbytes
+    * Retransmission time out value: 500 ms
 
 
 ## Submission
