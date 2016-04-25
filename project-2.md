@@ -15,21 +15,25 @@ title: Project 2
 
 ## Overview
 
-The purpose of this project is to learn socket programming and the basic of TCP protocol.
-The second project should be implemented on top of the first project.
-You need to change your socket from TCP to UDP which is a unreliable protocol.
-Your client should receive a requested file even though some packets are dropped or delayed.
+The purpose of this project is to learn the basics of TCP protocol by implementing a simplified version of it.
+
+You will need to implement a simple data transfer client and server applications, using UDP socket as an unreliable transport protocol.
+Your client should receive data even though some packets are dropped or delayed.
+
+As an extra credit, you can replace TCP socket with your transport in the webserver/webclient application from project 1.
 
 ## Task Description
 
-The client and the server work in the same way as it did in the first project.
+The client and the server work in similar way as it did in the first project.
 However, there are packet loss and delay on the link between them.
 To make the link reliable, you need to implement some parts of TCP such as the sequence number, the acknowledgement, and the congestion control.
 Once you get a reliable link, then the file transmission must be successful.
 
+Suggested packet format
+
+TBD
 
 ## Basic Transmission over UDP
-
 
 - In this project, you will be implementing a simple congestion window-based  TCP protocol.
  You must write one program implementing the client side, and another program
