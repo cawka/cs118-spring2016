@@ -10,6 +10,7 @@ title: Project 1
 
 ## Revisions
 
+* **April 25, 2016**: Clarified the response to HTTP request with '/' file path.
 * **April 25, 2016**: Clarified the command line arguments of web-client.
 * **April 21, 2016**: Clarified the requirements on HTTP responses.
 * **April 18, 2016**: Clarified the timeout in the bonus requirements.
@@ -123,6 +124,11 @@ About HTTP abstractions:
 *  You may assume the size of requested files is less than 1GB.
 
 *  Your implementation must support three error codes: `200 OK`, `400 Bad request`, `404 Not found`. All the other error codes (e.g., `403 Forbidden`, `501 Not implemented`, `505 HTTP version not supported`) are optional.
+
+*  What to return if the HTTP Request has a URL of "/"?
+   * If the server has index.html and request is "/index.html",  the server MUST return index.html
+   * If the server has index.html and request is "/", the server may return index.html or 404, both implementations are correct.
+   * If the server does not have index.html and request is "/index.html" or "/", the server MUST return 404.
 
 Here are some hints of using multi-thread techniques to implement the Web server.
 
