@@ -10,7 +10,7 @@ title: Project 1
 
 ## Revisions
 
-* **April 21, 2016**: Clarified the command line arguments of web-client.
+* **April 25, 2016**: Clarified the command line arguments of web-client.
 * **April 21, 2016**: Clarified the requirements on HTTP responses.
 * **April 18, 2016**: Clarified the timeout in the bonus requirements.
 * **April 15, 2016**: Added sample code of using `select` to implement asynchronous programming
@@ -95,7 +95,7 @@ After implementing the Web server, you can test it by visting it through some wi
 After finishing the Web server, you can start building your Web client.
 The eventual output is also a binary `web-client`, which accepts multiple URLs as arguments.
 
-    $ ./web-client [URL] ...
+    $ ./web-client [URL] [URL]...
 
 For example, the command below should start the Web client that fetches `index.html` file from your webserver:
 
