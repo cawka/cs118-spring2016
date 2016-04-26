@@ -6,12 +6,11 @@ title: Project 2
 * toc
 {:toc}
 
-# Project 1: Simple TCP over UDP Sockets
+# Project 2: Simple TCP-like Transport Protocol over UDP
 
 ## Revisions
 
-* **April 22, 2016**: Initial version of the project description.
-
+* **April 26, 2016**: Initial version of the project description.
 
 ## Overview
 
@@ -22,13 +21,12 @@ Your client should receive data even though some packets are dropped or delayed.
 
 ## Task Description
 
-The client and the server work in similar way as it did in the first project.
-However, there are packet loss and delay on the link between them.
-To make the link reliable, you need to implement some parts of TCP such as the sequence number, the acknowledgement, and the congestion control.
-Once you get a reliable link, then the file transmission must be successful.
+The developed client should establish connection to the developed server, after which the server will need to transfer data to the client.
+Individual packets sent by the client and the server may be lost or reordered.
+Therefore, your task is to make reliable data transfer by implementing parts of TCP such as the sequence number, the acknowledgement, and the congestion control.
 
-The project will be graded by testing transfer a single file over the unreliable link. 
-Your second project does not need to be extended from your first project (if you extend, you will get extra credit, see below). 
+The project will be graded by testing transfer a single file over the unreliable link.
+Your second project does not need to be extended from your first project (if you extend, you will get extra credit, see below).
 Instead, you can simply implement a single threaded server that starts data transfer as soon as the connection is established.
 
 ## Basic Transmission over UDP
@@ -53,7 +51,7 @@ Instead, you can simply implement a single threaded server that starts data tran
         ./server PORT-NUMBER FILE-NAME
 
 - You have to design your own transport layer header for this project.  It is up to you what information you want to include in the header (e.g., Sequence number, Acknowledge Number, and etc.), but you will at least need a sequence number field.  You are free to define what kind of messages you will require, and the format of the messages.
-  
+
   **The designed packet format must be described in the project report.**
 
 - Note that your programs will act as both a network application (file transfer program) as well as a reliable
@@ -67,6 +65,10 @@ may be too low to test your program.  Therefore, we are going to emulate packet 
 
 - The file transmission should be completed successfully, unless the packet loss rate is 100%.
 - The timer on both the client and the server should work correctly to retransmit the lost packet.
+
+### Examples to emulate packet loss
+
+TBD
 
 ## Congestion Control
 
@@ -106,8 +108,8 @@ are four types of output messages and should follow the formats below.
 
         Example:
 
-	        Sending data packet 5096 4 8 
-	        Sending data packet 6000 4 8 
+	        Sending data packet 5096 4 8
+	        Sending data packet 6000 4 8
 	        Sending data packet 6020 4 10
 
     * Server: Receiving ACK packets
@@ -115,7 +117,7 @@ are four types of output messages and should follow the formats below.
 	        "Receiving ACK packet" [ACK number]
 
         Example:
-       
+
             Receiving ACK packet 5096
             Receiving ACK packet 6020
 
@@ -129,7 +131,7 @@ are four types of output messages and should follow the formats below.
             Sending ACK packet 6000
             Sending ACK packet 6020
 
-    * Client: Receiving data packets 
+    * Client: Receiving data packets
 
             "Receiving data packet" [Sequence number]
 
@@ -153,6 +155,61 @@ are four types of output messages and should follow the formats below.
     * Initial window size: **1 Kbyte**
     * Initial slow start threshold: **8 Kbytes**
     * Retransmission time out value: **500 ms**
+
+## Environment Setup
+
+The best way to guarantee full credit for the project is to do project development using a Ubuntu 16.04-based virtual machine.
+
+You can easily create an image in your favourite virtualization engine (VirtualBox, VMware, Docker) using the Vagrant platform and steps outlined below.
+
+### Set up Vagrant and create VM instance
+
+**Note that all example commands are executed on the host machine (your laptop), e.g., in Terminal.app (or iTerm2.app) on OS X, cmd in Windows, and console or xterm on Linux.  After the last step (`vagrant ssh`) you will get inside the virtual machine and can compile your code there.**
+
+- Download and install your favourite virtualization engine, e.g., [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+
+- Download and install [Vagrant tools](https://www.vagrantup.com/downloads.html) for your platform
+
+- Set up project and VM instance
+
+  * Clone project template
+
+        git clone https://github.com/cawka/spring16-cs118-project2 ~/cs118-proj2
+        cd ~/cs118-proj2
+
+  * Initialize VM
+
+        vagrant up
+
+  * To establish an SSH session to the created VM, run
+
+        vagrant ssh
+
+  If you are using Putty on Windows platform, `vagrant ssh` will return information regarding the IP address and the port to connect to your virtual machine.
+
+- Work on your project
+
+  All files in `~/cs118-proj2` folder on the host machine will be automatically synchronized with `/vagrant` folder on the virtual machine.  For example, to compile your code, you can run the following commands:
+
+        vagrant ssh
+        cd /vagrant
+        make
+
+### Notes
+
+* If you want to open another SSH session, just open another terminal and run `vagrant ssh` (or create a new Putty session).
+
+* If you are using Windows, read [this article](http://www.sitepoint.com/getting-started-vagrant-windows/) to help yourself set up the environment.
+
+* The code base contains the basic `Makefile` and two empty files `server.cpp` and `client.cpp`.
+
+        $ vagrant ssh
+        vagrant@vagrant-ubuntu-xenial-64:~$ cd /vagrant
+        vagrant@vagrant-ubuntu-xenial-64:/vagrant$ ls
+        Makefile  README.md  Vagrantfile  client.cpp  server.cpp
+
+
+* You are now free to add more files and modify the Makefile to make the `server` and `client` full-fledged implementation.
 
 
 ## Submission
@@ -190,4 +247,3 @@ You can have:
 * 1 extra point if you replace TCP transport in your project-1 with the transport you have implemented in this project
 * 1 extra point if you implement RTT estimation and adaptive RTO, as defined in TCP specification
 * 1 extra point if you implement TCP Reno fast retransmission and recovery
-
