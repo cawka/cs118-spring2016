@@ -158,7 +158,7 @@ are four types of output messages and should follow the formats below.
 
 ## Environment Setup
 
-The best way to guarantee full credit for the project is to do project development using a Ubuntu 16.04-based virtual machine.
+The best way to guarantee full credit for the project is to do project development using a Ubuntu 14.04-based virtual machine.
 
 You can easily create an image in your favourite virtualization engine (VirtualBox, VMware, Docker) using the Vagrant platform and steps outlined below.
 
