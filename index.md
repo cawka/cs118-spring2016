@@ -11,5 +11,6 @@ This course provides an introduction to fundamental concepts in the design and i
 
 ## Course Announcements
 
+- Project 1 deadline extended
 - Lectures moved to **MS 5200**
 - First lecture will be on March 29, 2016
