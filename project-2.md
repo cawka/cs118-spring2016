@@ -156,6 +156,20 @@ are four types of output messages and should follow the formats below.
     * Initial slow start threshold: **8 Kbytes**
     * Retransmission time out value: **500 ms**
 
+- Simple TCP header format
+
+    * Your simple TCP header should follow the below format which is 4 bytes fixed size.
+
+                0                   1                   2                   3   
+                0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 
+                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                |        Sequence Number        |     Acknowledgment Number     |
+                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                |                               |                         |A|S|F|
+                |             Window            |          Not Used       |C|Y|I|
+                |                               |                         |K|N|N|
+                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
 ## Environment Setup
 
 The best way to guarantee full credit for the project is to do project development using a Ubuntu 14.04-based virtual machine.
