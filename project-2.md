@@ -158,7 +158,7 @@ are four types of output messages and should follow the formats below.
 
 - Simple TCP header format
 
-    * Your simple TCP header should follow the below format which is 4 bytes fixed size.
+    * Your simple TCP header should follow the below format which is 8 bytes fixed size.
 
                 0                   1                   2                   3   
                 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 
@@ -169,6 +169,20 @@ are four types of output messages and should follow the formats below.
                 |             Window            |          Not Used       |C|Y|I|
                 |                               |                         |K|N|N|
                 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+    * Sequence Number (16 bits): The sequence number of the first data octet in this segment (except when SYN is present). If SYN is present the sequence number is the initial sequence number (ISN) and the first data octet is ISN+1.
+
+    * Acknowledgement Number (16 bits): If the ACK control bit is set this field contains the value of the next sequence number the sender of the segment is expecting to receive.  Once a connection is established this is always sent.
+
+    * Window (16 bits): The number of data octets beginning with the one indicated in the acknowledgment field which the sender of this segment is willing to accept.
+
+    * Not Used (13 bits): Must be zero.
+
+    * ACK (1 bit): Acknowledgment field significant
+
+    * SYN (1 bit): Synchronize sequence numbers (TCP connection establishment)
+
+    * FIN (1 bit): No more data from sender (TCP connection termination)
 
 ## Environment Setup
 
