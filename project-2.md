@@ -10,6 +10,7 @@ title: Project 2
 
 ## Revisions
 
+* **May 5, 2016**: Add suggested header format and examples of how to use `tc` command to emulate loss and delay on the link
 * **April 26, 2016**: Initial version of the project description.
 
 ## Overview
@@ -72,23 +73,23 @@ may be too low to test your program.  Therefore, we are going to emulate packet 
 
     * First, you want to check the tc command options of your network interface (eth0 is used in this example)
 
-	           tc qdisc show dev eth0
+            tc qdisc show dev eth0
 
     * You can add a rule to randomly drop 10% of packets on eth0.
 
-	           tc qdisc add dev eth0 root netem loss 10%
+	        tc qdisc add dev eth0 root netem loss 10%
 
     * After adding the above rule, both the client and the server should retransmit some packets due to the packet loss. You can check the retransmission on the output message
 
     * To delete the rule:
 
-	           tc qdisc del dev eth0 root
+	        tc qdisc del dev eth0 root
 
     * You can re-order the packet. The below command causes every 5th (10th, 15th, ...) packet to go to be sent immediately and every other packet to be delayed by 100ms.
 
-	           tc qdisc change add eth0 root netem gap 5 delay 100ms
+	        tc qdisc change add eth0 root netem gap 5 delay 100ms
 
-    * More examples can be found in **http://www.linuxfoundation.org/collaborate/workgroups/networking/netem** 
+    * More examples can be found in [Network Emulation tutorial](http://www.linuxfoundation.org/collaborate/workgroups/networking/netem)
 
 
 ## Congestion Control
@@ -183,29 +184,27 @@ are four types of output messages and should follow the formats below.
 
     * Your simple TCP header should follow the below format which is 8 bytes fixed size.
 
-                0                   1                   2                   3   
-                0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 
-                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-                |        Sequence Number        |     Acknowledgment Number     |
-                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-                |                               |                         |A|S|F|
-                |             Window            |          Not Used       |C|Y|I|
-                |                               |                         |K|N|N|
-                +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+             0                   1                   2                   3
+             0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |        Sequence Number        |     Acknowledgment Number     |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             Window            |          Not Used       |A|S|F|
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-    * Sequence Number (16 bits): The sequence number of the first data octet in this segment (except when SYN is present). If SYN is present the sequence number is the initial sequence number (ISN) and the first data octet is ISN+1.
+    * `Sequence Number` (16 bits): The sequence number of the first data octet in this segment (except when SYN is present). If SYN is present the sequence number is the initial sequence number (ISN) and the first data octet is ISN+1.
 
-    * Acknowledgement Number (16 bits): If the ACK control bit is set this field contains the value of the next sequence number the sender of the segment is expecting to receive.  Once a connection is established this is always sent.
+    * `Acknowledgement Number` (16 bits): If the ACK control bit is set this field contains the value of the next sequence number the sender of the segment is expecting to receive.  Once a connection is established this is always sent.
 
-    * Window (16 bits): The number of data octets beginning with the one indicated in the acknowledgment field which the sender of this segment is willing to accept.
+    * `Window` (16 bits): The number of data octets beginning with the one indicated in the acknowledgment field which the sender of this segment is willing to accept.
 
-    * Not Used (13 bits): Must be zero.
+    * `Not Used` (13 bits): Must be zero.
 
-    * ACK (1 bit): Acknowledgment field significant
+    * `A` (ACK, 1 bit): Acknowledgment field significant
 
-    * SYN (1 bit): Synchronize sequence numbers (TCP connection establishment)
+    * `S` (SYN, 1 bit): Synchronize sequence numbers (TCP connection establishment)
 
-    * FIN (1 bit): No more data from sender (TCP connection termination)
+    * `F` (FIN, 1 bit): No more data from sender (TCP connection termination)
 
 ## Environment Setup
 
@@ -295,6 +294,6 @@ Your code will then be automatically tested in some testing scenarios. If your c
 
 You can have:
 
-* 1 extra point if you replace TCP transport in your project-1 with the transport you have implemented in this project
 * 1 extra point if you implement RTT estimation and adaptive RTO, as defined in TCP specification
 * 1 extra point if you implement TCP Reno fast retransmission and recovery
+* 2 extra point if you replace TCP transport in your project-1 with the transport you have implemented in this project
