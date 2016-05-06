@@ -132,7 +132,7 @@ are four types of output messages and should follow the formats below.
 	        Sending data packet 5096 16 10
 	        Sending data packet 6000 16 10
 	        Sending data packet 6020 16 10
-                Sending data packet 5096 1 8 Retransmission 
+	        Sending data packet 5096 1 8 Retransmission
 
     * Server: Receiving ACK packets
 
