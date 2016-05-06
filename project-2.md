@@ -72,21 +72,21 @@ may be too low to test your program.  Therefore, we are going to emulate packet 
 
     * First, you want to check the tc command options of your network interface (eth0 is used in this example)
 
-           tc qdisc show dev eth0
+	           tc qdisc show dev eth0
 
     * You can add a rule to randomly drop 10% of packets on eth0.
 
-           tc qdisc add dev eth0 root netem loss 10%
+	           tc qdisc add dev eth0 root netem loss 10%
 
     * After adding the above rule, both the client and the server should retransmit some packets due to the packet loss. You can check the retransmission on the output message
 
     * To delete the rule:
 
-           tc qdisc del dev eth0 root
+	           tc qdisc del dev eth0 root
 
     * You can re-order the packet. The below command causes every 5th (10th, 15th, ...) packet to go to be sent immediately and every other packet to be delayed by 100ms.
 
-           tc qdisc change add eth0 root netem gap 5 delay 100ms
+	           tc qdisc change add eth0 root netem gap 5 delay 100ms
 
     * More examples can be found in **http://www.linuxfoundation.org/collaborate/workgroups/networking/netem** 
 
