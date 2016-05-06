@@ -94,12 +94,18 @@ may be too low to test your program.  Therefore, we are going to emulate packet 
 
 ## Congestion Control
 
-Your server has to adjust the window size depending on the link status.
+Your server has to adjust the window size depending on the link status.  **Note that for the full credit you need implement only TCP Tahoe congestion window adjustment logic**:
 
 - *Slow start*: the window size will be doubled until it meets the slow start threshold value (`ssthresh`).
 - *Congestion Avoidance*: the window size added by one if the window size is larger than `ssthresh`.
-- If a packet is lost, the server has to adjust the window size and also the `ssthresh`.
+- If a packet is lost as detected by the retransmission timeout
 
+  * The server sets `ssthresh` to 1/2 of current congestion window and
+  * set congestion window to 1
+
+In other words, after timeout, the sender adjusts the value of `sshthresh` and moves back to *Slow Start* stage.  As soon as the value of `cwnd` reaches `sshthresh`, it switches to *Congestion Avoidance*.  As soon as packet lost, the server again adjusts `sshthresh`, set `cwnd` to 1, and restart from *Congestion Avoidance* stage.
+
+When you done with the basic project, you can continue with implementing TCP Reno and/or TCP NewReno congestion window adjustment logic for extra credit.
 
 ## Hints
 
@@ -192,11 +198,11 @@ are four types of output messages and should follow the formats below.
             |             Window            |          Not Used       |A|S|F|
             +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-    * `Sequence Number` (16 bits): The sequence number of the first data octet in this segment (except when SYN is present). If SYN is present the sequence number is the initial sequence number (ISN) and the first data octet is ISN+1.
+    * `Sequence Number` (16 bits): The sequence number of the first data octet in this packet (except when SYN is present). If SYN is present the sequence number is the initial sequence number (ISN) and the first data octet is ISN+1.
 
     * `Acknowledgement Number` (16 bits): If the ACK control bit is set this field contains the value of the next sequence number the sender of the segment is expecting to receive.  Once a connection is established this is always sent.
 
-    * `Window` (16 bits): The number of data octets beginning with the one indicated in the acknowledgment field which the sender of this segment is willing to accept.
+    * `Window` (16 bits): The number of data octets beginning with the one indicated in the acknowledgment field which the sender of this packet is willing to accept.
 
     * `Not Used` (13 bits): Must be zero.
 
@@ -295,5 +301,9 @@ Your code will then be automatically tested in some testing scenarios. If your c
 You can have:
 
 * 1 extra point if you implement RTT estimation and adaptive RTO, as defined in TCP specification
-* 1 extra point if you implement TCP Reno fast retransmission and recovery
-* 2 extra point if you replace TCP transport in your project-1 with the transport you have implemented in this project
+* 1 extra point if you implement TCP Reno or TCP NewReno fast retransmission and recovery
+* (**Very complicated. Proceed with caution**) 4 extra points if you replace TCP transport in your project-1 with the transport you have implemented in this project, which should involve:
+  - creating a proper socket-like abstraction for your transport
+  - bidirectional data flow (client will need to send request and server will need to send reply)
+  - support for multiple parallel connections
+  
