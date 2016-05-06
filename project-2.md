@@ -68,7 +68,28 @@ may be too low to test your program.  Therefore, we are going to emulate packet 
 
 ### Examples to emulate packet loss
 
-TBD
+- Run the below commands to emulate packet loss at either the client or the server side.
+
+    * First, you want to check the tc command options of your network interface (eth0 is used in this example)
+
+           tc qdisc show dev eth0
+
+    * You can add a rule to randomly drop 10% of packets on eth0.
+
+           tc qdisc add dev eth0 root netem loss 10%
+
+    * After adding the above rule, both the client and the server should retransmit some packets due to the packet loss. You can check the retransmission on the output message
+
+    * To delete the rule:
+
+           tc qdisc del dev eth0 root
+
+    * You can re-order the packet. The below command causes every 5th (10th, 15th, ...) packet to go to be sent immediately and every other packet to be delayed by 100ms.
+
+           tc qdisc change add eth0 root netem gap 5 delay 100ms
+
+    * More examples can be found in **http://www.linuxfoundation.org/collaborate/workgroups/networking/netem** 
+
 
 ## Congestion Control
 
@@ -104,13 +125,14 @@ are four types of output messages and should follow the formats below.
 
     * Server: Sending data packets
 
-            "Sending data packet" [Sequence number] [CWND] [SSThresh]
+            "Sending data packet" [Sequence number] [CWND] [SSThresh] ("Retransmission")
 
         Example:
 
-	        Sending data packet 5096 4 8
-	        Sending data packet 6000 4 8
-	        Sending data packet 6020 4 10
+	        Sending data packet 5096 16 10
+	        Sending data packet 6000 16 10
+	        Sending data packet 6020 16 10
+                Sending data packet 5096 1 8 Retransmission 
 
     * Server: Receiving ACK packets
 
@@ -123,13 +145,14 @@ are four types of output messages and should follow the formats below.
 
     * Client: Sending ACK packets
 
-	        "Sending ACK packet" [ACK number]
+	        "Sending ACK packet" [ACK number] ("Retransmission")
 
         Example:
 
             Sending ACK packet 5096
             Sending ACK packet 6000
             Sending ACK packet 6020
+            Sending ACK packet 5096 Retransmission
 
     * Client: Receiving data packets
 
