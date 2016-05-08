@@ -10,6 +10,7 @@ title: Project 2
 
 ## Revisions
 
+* **May 8, 2016**: Add congestion/receiver window clarifications
 * **May 5, 2016**: Add suggested header format and examples of how to use `tc` command to emulate loss and delay on the link
 * **April 26, 2016**: Initial version of the project description.
 
@@ -94,10 +95,10 @@ may be too low to test your program.  Therefore, we are going to emulate packet 
 
 ## Congestion Control
 
-Your server has to adjust the window size depending on the link status.  **Note that for the full credit you need implement only TCP Tahoe congestion window adjustment logic**:
+Your server has to adjust the congestion window size depending on the link status.  **Note that for the full credit you need implement only TCP Tahoe congestion window adjustment logic**:
 
-- *Slow start*: the window size will be doubled until it meets the slow start threshold value (`ssthresh`).
-- *Congestion Avoidance*: the window size added by one if the window size is larger than `ssthresh`.
+- *Slow start*: the congestion window size will be doubled until it meets the slow start threshold value (`ssthresh`).
+- *Congestion Avoidance*: the congestion window size added by one if the congestion window size is larger than `ssthresh`.
 - If a packet is lost as detected by the retransmission timeout
 
   * The server sets `ssthresh` to 1/2 of current congestion window and
@@ -114,7 +115,7 @@ The best way to approach this project is in incremental steps.  Do not try to im
 - First, assume there is no packet loss. Just have the server send a packet, the receiver respond with an ACK,
 and so on.
 
-- Second, introduce a large file transmission. This means you must divide the file into multiple packets and transmit the packets based on the current window size.
+- Second, introduce a large file transmission. This means you must divide the file into multiple packets and transmit the packets based on the current congestion window size.
 
 - Third, introduce packet loss.  Now you have to add a timer at the sender side for each packet. Also congestion control features should be implemented for the successful file transmission.
 
@@ -172,7 +173,7 @@ are four types of output messages and should follow the formats below.
 
 - The maximum packet size is 1 Kbytes (1024 bytes) including a header.
 
-- The window size must be given in **the unit of bytes**, not in the unit of packet count. For example, if the window size is 5 Kbytes, then five packets can be transmitted simultaneously.
+- The receiver and congestion window sizes must be in **the unit of bytes**, not in the unit of packet count. For example, if the minimum of the congestion and receiver windows is 5000 bytes, then five packets with payload of 1000 bytes each can be transmitted simultaneously (including length, each packet will be 1008 bytes).
 
 - The sequence number is given in **the unit of bytes** as well. The maximum sequence number should correspond to **30 Kbytes (30720 bytes)**. You have to reset back the sequence number when it reaches the maximum value.
 
@@ -180,11 +181,12 @@ are four types of output messages and should follow the formats below.
 
 - Here are the default values for some variables.
 
-    * Maximum packet length (including all your headers): **1 Kbyte**
-    * Maximum sequence number: **30 Kbytes**
-    * Initial window size: **1 Kbyte**
-    * Initial slow start threshold: **8 Kbytes**
+    * Maximum packet length (including all your headers): **1024 bytes**
+    * Maximum sequence number: **30720 bytes**
+    * Initial congestion window size: **1024 byte**
+    * Initial slow start threshold: **30720 bytes**
     * Retransmission time out value: **500 ms**
+    * The basic client's receiver window can be always **30720 bytes**, but the server should be able to properly handle cases when the window is reduced.
 
 - Simple TCP header format
 
@@ -202,11 +204,11 @@ are four types of output messages and should follow the formats below.
 
     * `Acknowledgement Number` (16 bits): If the ACK control bit is set this field contains the value of the next sequence number the sender of the segment is expecting to receive.  Once a connection is established this is always sent.
 
-    * `Window` (16 bits): The number of data octets beginning with the one indicated in the acknowledgment field which the sender of this packet is willing to accept.
+    * `Window` (16 bits): The number of data octets the sender of this packet is willing to accept.
 
     * `Not Used` (13 bits): Must be zero.
 
-    * `A` (ACK, 1 bit): Acknowledgment field significant
+    * `A` (ACK, 1 bit): Indicates that there the value of `Acknowledgment Number` field is valid
 
     * `S` (SYN, 1 bit): Synchronize sequence numbers (TCP connection establishment)
 
