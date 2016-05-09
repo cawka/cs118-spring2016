@@ -10,6 +10,7 @@ title: Project 2
 
 ## Revisions
 
+* **Max 9, 2016**: Updated `Vagrantfile` in the project skeleton, updated environment setup instructions, and `tc` examples
 * **May 8, 2016**: Add congestion/receiver window clarifications
 * **May 5, 2016**: Add suggested header format and examples of how to use `tc` command to emulate loss and delay on the link
 * **April 26, 2016**: Initial version of the project description.
@@ -70,28 +71,34 @@ may be too low to test your program.  Therefore, we are going to emulate packet 
 
 ### Examples to emulate packet loss
 
-- Run the below commands to emulate packet loss at either the client or the server side.
+If are using the [Vagrantfile provided in project-2 skeleton](https://github.com/cawka/spring16-cs118-project2), you can automatically instantiate two virtual machines that are connected to each other using a private network (`eth1` interface on each) with emulated 10% loss and delay of 20ms in each direction.
 
-    * First, you want to check the tc command options of your network interface (eth0 is used in this example)
+You can use the following commands to adjust parameters of the emulation:
 
-            tc qdisc show dev eth0
+- To check the current parameters for the private network (`eth1`)
 
-    * You can add a rule to randomly drop 10% of packets on eth0.
+        tc qdisc show dev eth1
 
-	        tc qdisc add dev eth0 root netem loss 10%
+- To change current parameters to loss rate of 20% and delay 100ms:
 
-    * After adding the above rule, both the client and the server should retransmit some packets due to the packet loss. You can check the retransmission on the output message
+        tc qdisc change dev eth1 root netem loss 20% delay 100ms
 
-    * To delete the rule:
+- To delete the network emulation:
 
-	        tc qdisc del dev eth0 root
+        tc qdisc del dev eth1 root
 
-    * You can re-order the packet. The below command causes every 5th (10th, 15th, ...) packet to go to be sent immediately and every other packet to be delayed by 100ms.
+- If network emulation hasn't yet setup or you have deleted it, you can add it to, e.g., 10% loss without delay emulation:
 
-	        tc qdisc change add eth0 root netem gap 5 delay 100ms
+        tc qdisc add dev eth1 root netem loss 10%
 
-    * More examples can be found in [Network Emulation tutorial](http://www.linuxfoundation.org/collaborate/workgroups/networking/netem)
 
+- You can also change network emulation to re-order packets.  The command below makes 4 out of every 5 packets (1-4, 6-9, ...) to be delayed by 100ms, while every 5th packet (, 10, 15, ...) will be sent immediately:
+
+        tc qdisc change add dev eth1 root netem gap 5 delay 100ms
+
+- More examples can be found in [Network Emulation tutorial](http://www.linuxfoundation.org/collaborate/workgroups/networking/netem)
+
+If you are not using the provided Vagrant, you should adjust network interface to one that matches your experiments.
 
 ## Congestion Control
 
@@ -228,26 +235,37 @@ You can easily create an image in your favourite virtualization engine (VirtualB
 
 - Download and install [Vagrant tools](https://www.vagrantup.com/downloads.html) for your platform
 
-- Set up project and VM instance
+- Set up project and VM instances
 
-  * Clone project template
+  * Clone [project template](https://github.com/cawka/spring16-cs118-project2)
 
         git clone https://github.com/cawka/spring16-cs118-project2 ~/cs118-proj2
         cd ~/cs118-proj2
 
-  * Initialize VM
+  * Initialize VMs, one to run the client app and the other to run the server app
 
         vagrant up
 
+        # Or you can set up them individually
+        # vagrant up client
+        # vagrant up server
+
   * To establish an SSH session to the created VM, run
 
-        vagrant ssh
+    To ssh to the client VM
 
-  If you are using Putty on Windows platform, `vagrant ssh` will return information regarding the IP address and the port to connect to your virtual machine.
+        vagrant ssh 
+        # or vagrant ssh client
+
+    To ssh to the server VM
+
+        vagrant ssh server
+
+  If you are using Putty on Windows platform, `vagrant ssh` (`vagrant ssh server`) will return information regarding the IP address and the port to connect to your virtual machine.
 
 - Work on your project
 
-  All files in `~/cs118-proj2` folder on the host machine will be automatically synchronized with `/vagrant` folder on the virtual machine.  For example, to compile your code, you can run the following commands:
+  All files in `~/cs118-proj2` folder on the host machine will be automatically synchronized with `/vagrant` folder on both virtual machines.  For example, to compile your code, you can run the following commands:
 
         vagrant ssh
         cd /vagrant
@@ -257,6 +275,11 @@ You can easily create an image in your favourite virtualization engine (VirtualB
 
 * If you want to open another SSH session, just open another terminal and run `vagrant ssh` (or create a new Putty session).
 
+* The client and server VMs are connected using the private network `10.0.0.0/24` (`eth1`)
+
+  - client's IP address: `10.0.0.2`
+  - server's IP address: `10.0.0.1`
+
 * If you are using Windows, read [this article](http://www.sitepoint.com/getting-started-vagrant-windows/) to help yourself set up the environment.
 
 * The code base contains the basic `Makefile` and two empty files `server.cpp` and `client.cpp`.
@@ -265,7 +288,6 @@ You can easily create an image in your favourite virtualization engine (VirtualB
         vagrant@vagrant-ubuntu-xenial-64:~$ cd /vagrant
         vagrant@vagrant-ubuntu-xenial-64:/vagrant$ ls
         Makefile  README.md  Vagrantfile  client.cpp  server.cpp
-
 
 * You are now free to add more files and modify the Makefile to make the `server` and `client` full-fledged implementation.
 
