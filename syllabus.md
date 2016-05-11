@@ -73,9 +73,9 @@ You are all encouraged to visit us during office hours or email us. Class partic
 
 - Programming projects can be done in groups of 1-3 students
 
-- No late homework or project submission.  Homeworks and projects are submitted electronically to class [courseweb](https://my.engineering.ucla.edu/user/loginHome.php).
+- No late homework or project submission.  Homeworks and projects are submitted electronically through [CCLE](https://ccle.ucla.edu/course/view/16S-COMSCI118-1).
 
-  * Homeworks should be submitted as `PDF` file. No photocopies! Type your homework answers in Word, Latex, or PDF directly, otherwise you will get no credit.
+  * Homeworks should be submitted as `PDF` file. No handwritten and then scanned submissions! Type your homework answers in Word, Latex, or PDF directly, otherwise you will get no credit.
   * Projects should be submitted as `.tar.gz` archive, see project descriptions for more detail.
 
 - No make-up midterm or final examinations.
