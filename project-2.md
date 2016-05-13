@@ -124,7 +124,7 @@ and so on.
 
 - Second, introduce a large file transmission. This means you must divide the file into multiple packets and transmit the packets based on the current congestion window size.
 
-- Third, introduce packet loss.  Now you have to add a timer at the sender side for each packet. Also congestion control features should be implemented for the successful file transmission.
+- Third, introduce packet loss.  Now you have to add a timer at the first sent and unacked packet. There should be one timeout whenever data segments are sent out. Also congestion control features should be implemented for the successful file transmission.
 
 The credit of your project is distributed among the required functions. If you only finish part of the requirements, we still
 give you partial credit. So please do the project incrementally.
