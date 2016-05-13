@@ -280,6 +280,8 @@ You can easily create an image in your favourite virtualization engine (VirtualB
   - client's IP address: `10.0.0.2`
   - server's IP address: `10.0.0.1`
 
+  Note that these addresses do not mean that your server and client must support only this environment.  The server and client should be able to work a linux host with any other IP addresses as well.
+
 * If you are using Windows, read [this article](http://www.sitepoint.com/getting-started-vagrant-windows/) to help yourself set up the environment.
 
 * The code base contains the basic `Makefile` and two empty files `server.cpp` and `client.cpp`.
