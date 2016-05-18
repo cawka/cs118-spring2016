@@ -179,7 +179,7 @@ are four types of output messages and should follow the formats below.
             Receiving data packet 5096
             Receiving data packet 6020
 
-- The maximum packet size is 1 Kbytes (1024 bytes) including a header.
+- The maximum packet size is 1032 bytes including a header (1024 bytes for the payload)
 
 - The receiver and congestion window sizes must be in **the unit of bytes**, not in the unit of packet count. For example, if the minimum of the congestion and receiver windows is 5000 bytes, then five packets with payload of 1000 bytes each can be transmitted simultaneously (including length, each packet will be 1008 bytes).
 
@@ -189,7 +189,7 @@ are four types of output messages and should follow the formats below.
 
 - Here are the default values for some variables.
 
-    * Maximum packet length (including all your headers): **1024 bytes**
+    * Maximum packet length (including all your headers): **1032 bytes**
     * Maximum sequence number: **30720 bytes**
     * Initial congestion window size: **1024 byte**
     * Initial slow start threshold: **30720 bytes**
