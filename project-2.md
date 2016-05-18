@@ -10,7 +10,8 @@ title: Project 2
 
 ## Revisions
 
-* **Max 9, 2016**: Updated `Vagrantfile` in the project skeleton, updated environment setup instructions, and `tc` examples
+* **May 18, 2016**: Corrected definition of the maximum packet size
+* **May 9, 2016**: Updated `Vagrantfile` in the project skeleton, updated environment setup instructions, and `tc` examples
 * **May 8, 2016**: Add congestion/receiver window clarifications
 * **May 5, 2016**: Add suggested header format and examples of how to use `tc` command to emulate loss and delay on the link
 * **April 26, 2016**: Initial version of the project description.
@@ -45,7 +46,7 @@ Instead, you can simply implement a single threaded server that starts data tran
 
 - The client should establish a connection to the server using a three-way handshake.  During the handshake, the server has to send its initial sequence number to the client.
 
-- After establishing the connection, the server should send the specified in the command-line file, dividing it into multiple packets and adding necessary header information. The maximum packet size should be 1 Kbytes (1024 bytes) bytes including all the headers.
+- After establishing the connection, the server should send the specified in the command-line file, dividing it into multiple packets and adding necessary header information. The maximum packet size should be 1032 bytes including all the headers (max 1024 bytes of payload).
 
 - Command-line specification for client and server program:
 
