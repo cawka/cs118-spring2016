@@ -10,6 +10,7 @@ title: Project 2
 
 ## Revisions
 
+* **Max 19, 2016**: Small corrections about congestion window sizes
 * **May 18, 2016**: Corrected definition of the maximum packet size
 * **May 9, 2016**: Updated `Vagrantfile` in the project skeleton, updated environment setup instructions, and `tc` examples
 * **May 8, 2016**: Add congestion/receiver window clarifications
@@ -40,7 +41,7 @@ Instead, you can simply implement a single threaded server that starts data tran
 
 - The client and the server will communicate using the User Datagram Protocol (UDP) socket, which does not guarantee data delivery.
 
-- The initial window size starts from 1.
+- The initial congestion window size starts from 1024 bytes.
 
 - The fixed retransmission timeout value 500 milliseconds (adaptive RTO for the extra credit)
 
@@ -110,7 +111,7 @@ Your server has to adjust the congestion window size depending on the link statu
 - If a packet is lost as detected by the retransmission timeout
 
   * The server sets `ssthresh` to 1/2 of current congestion window and
-  * set congestion window to 1
+  * set congestion window to 1024 bytes
 
 In other words, after timeout, the sender adjusts the value of `sshthresh` and moves back to *Slow Start* stage.  As soon as the value of `cwnd` reaches `sshthresh`, it switches to *Congestion Avoidance*.  As soon as packet lost, the server again adjusts `sshthresh`, set `cwnd` to 1, and restart from *Congestion Avoidance* stage.
 
@@ -181,7 +182,7 @@ are four types of output messages and should follow the formats below.
 
 - The maximum packet size is 1032 bytes including a header (1024 bytes for the payload)
 
-- The receiver and congestion window sizes must be in **the unit of bytes**, not in the unit of packet count. For example, if the minimum of the congestion and receiver windows is 5000 bytes, then five packets with payload of 1000 bytes each can be transmitted simultaneously (including length, each packet will be 1008 bytes).
+- The receiver and congestion window sizes must be in **the unit of bytes**, not in the unit of packet count. For example, if the minimum of the congestion and receiver windows is 5000 bytes, then four packets with payload of 1024 bytes each can be transmitted simultaneously (including length, each packet will be 1032 bytes) or five packets with payload of 1000 bytes (i.e., if you want, you can send payload less than maximum).
 
 - The sequence number is given in **the unit of bytes** as well. The maximum sequence number should correspond to **30 Kbytes (30720 bytes)**. You have to reset back the sequence number when it reaches the maximum value.
 
