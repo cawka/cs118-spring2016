@@ -10,6 +10,7 @@ title: Project 2
 
 ## Revisions
 
+* **May 26, 2016**: Fix inconsistency about header format.  You should use the headers defined in the project definition.
 * **Max 19, 2016**: Small corrections about congestion window sizes
 * **May 18, 2016**: Corrected definition of the maximum packet size
 * **May 9, 2016**: Updated `Vagrantfile` in the project skeleton, updated environment setup instructions, and `tc` examples
@@ -21,7 +22,6 @@ title: Project 2
 
 The purpose of this project is to learn the basics of TCP protocol, including connection establishment and congestion control.
 You will need to implement a simple data transfer client and server applications, using UDP sockets as an unreliable transport.
-The goal of the project is to design and implement your own transport protocol headers on top of UDP to make it as a reliable transfer protocol.
 Your client should receive data even though some packets are dropped or delayed.
 
 ## Task Description
@@ -55,9 +55,7 @@ Instead, you can simply implement a single threaded server that starts data tran
 
         ./server PORT-NUMBER FILE-NAME
 
-- You have to design your own transport layer header for this project.  It is up to you what information you want to include in the header (e.g., Sequence number, Acknowledge Number, and etc.), but you will at least need a sequence number field.  You are free to define what kind of messages you will require, and the format of the messages.
-
-  **The designed packet format must be described in the project report.**
+- You should use the packet format defined later in the project description.
 
 - Note that your programs will act as both a network application (file transfer program) as well as a reliable
 transport layer protocol built over the unreliable UDP transport layer.
