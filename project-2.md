@@ -144,10 +144,10 @@ are four types of output messages and should follow the formats below.
 
         Example:
 
-	        Sending data packet 5096 16 10
-	        Sending data packet 6000 16 10
-	        Sending data packet 6020 16 10
-	        Sending data packet 5096 1 8 Retransmission
+	        Sending data packet 5096 16384 30720
+	        Sending data packet 6000 16384 30720
+	        Sending data packet 6020 16384 30720
+	        Sending data packet 5096  1024 15360 Retransmission
 
     * Server: Receiving ACK packets
 
@@ -167,7 +167,7 @@ are four types of output messages and should follow the formats below.
             Sending ACK packet 5096
             Sending ACK packet 6000
             Sending ACK packet 6020
-            Sending ACK packet 5096 Retransmission
+            Sending ACK packet 6020 Retransmission
 
     * Client: Receiving data packets
 
