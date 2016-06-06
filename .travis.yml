@@ -1,7 +1,7 @@
 language: ruby
 sudo: false
 rvm:
-  - 2.1
+  - 2.2
 branches:
   only:
     - master
@@ -9,6 +9,7 @@ env:
   global:
     - secure: "fQb+CXj9IXpg0KsigxrNGutIgLAXPifsHHgMDKWXxXzc07Qdyt00oU3L1HCqCUZHYYwyFC/OZuHSh1M7GDnXfbaT8XJBykYfVy6lIyOCUSJcgaun7CLsOaRALDDUqA8Gz2KyZwb1I2kL4oJTFJDcERYcIlhTfs+eTEN+HKv7bNver3mZv3b5KkCJwC7ItqlcDaQGoRfFILTiDY/rGo37jZp83JNASE6bqEP4h+qZpSqkQMTfbYHJMkQi4fWSTX3zy1Fxa2O7GvysFLa7cEkwlh1mPd6NkCHQ+xIPnay0RRT/Cs9B+rEtB/cUd24SDHyf8DZoMluadUtUKYma7G7A1sVfh5d2G4qfSTcSqZiPETyJjby92sszgfo/XdKAl7sYthd1MvOusBlkbWidSctprCfBKTq73uZPYSUgAcA0+cMYLs+Vr3pphultTtK+5X79aU6iW2qWOpzuejniQIbkMgjLsnSxq7TGxVvJACWQDu2ZGWapOXrXj7bAAqWnN9b5Y9Yk8JOyX5Ezgp2T2ZbFbpVnbFfHufZ6iOsJFICGCbNmg5wNZtFAznXqNpBpcx2WiiMKuvi8VeYVuEze/C1PJDuVrwQNgUuecy1ewVrX5y2Hze43dvxToweoCsZnZZT0BYSfROPGqjbMzQCu+ItNtqcoggya45KxdjI87SkqJ9Y="
 script:
+  - gem install bundler
   - bundle exec jekyll build
 after_success:
   - openssl aes-256-cbc -K $encrypted_618cbf550328_key -iv $encrypted_618cbf550328_iv -in .travis.d/rsa.enc -out .travis.d/rsa -d

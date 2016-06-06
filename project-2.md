@@ -11,7 +11,7 @@ title: Project 2
 ## Revisions
 
 * **June 5, 2016**: Several updates.
-  [Diff](https://github.com/cawka/cs118-spring2016/compare/master%5E...master)
+  [Diff](https://github.com/cawka/cs118-spring2016/compare/20669bf381c234922ca79ad3a01797175b6d98f8^...20669bf381c234922ca79ad3a01797175b6d98f8)
 * **May 31, 2016**: Update output examples.
   [Diff](https://github.com/cawka/cs118-spring2016/compare/47c2331c930512ce94cbde31fb5730afece4f03e^...47c2331c930512ce94cbde31fb5730afece4f03e)
 * **May 26, 2016**: Fix inconsistency about header format.  You should use the headers defined in the project definition.
