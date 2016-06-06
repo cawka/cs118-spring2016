@@ -147,47 +147,49 @@ give you partial credit. So please do the project incrementally.
 - You should print messages to the screen when the server or the client is sending or receiving packets. There
 are four types of output messages and should follow the formats below.
 
-    * Server: Sending data packets
+    * Server: Sending packets
 
-            "Sending data packet" [Sequence number] [CWND] [SSThresh] ("Retransmission") ("SYN") ("FIN")
-
-        Example:
-
-	        Sending data packet 5095 1024 1024 SYN
-	        Sending data packet 5096 16384 15360
-	        Sending data packet 6000 16384 15360
-	        Sending data packet 6020 16384 15360
-	        Sending data packet 5096 1024 15360 Retransmission
-	        Sending data packet 6040 16384 15360 FIN
-
-    * Server: Receiving ACK packets
-
-	        "Receiving ACK packet" [ACK number]
+            "Sending packet" [Sequence number] [CWND] [SSThresh] ("Retransmission") ("SYN") ("FIN")
 
         Example:
 
-            Receiving ACK packet 5096
-            Receiving ACK packet 6020
+	        Sending packet 5095 1024 1024 SYN
+	        Sending packet 5096 16384 15360
+	        Sending packet 6000 16384 15360
+	        Sending packet 6020 16384 15360
+	        Sending packet 5096 1024 15360 Retransmission
+	        Sending packet 6040 16384 15360 FIN
 
-    * Client: Sending ACK packets
+    * Server: Receiving packets
 
-	        "Sending ACK packet" [ACK number] ("Retransmission")
-
-        Example:
-
-            Sending ACK packet 5096
-            Sending ACK packet 6000
-            Sending ACK packet 6020
-            Sending ACK packet 6020 Retransmission
-
-    * Client: Receiving data packets
-
-            "Receiving data packet" [Sequence number]
+	        "Receiving packet" [ACK number]
 
         Example:
 
-            Receiving data packet 5096
-            Receiving data packet 6020
+            Receiving packet 5096
+            Receiving packet 6020
+
+    * Client: Sending packets
+
+	        "Sending packet" [ACK number] ("Retransmission") ("SYN") ("FIN")
+
+        Example:
+
+            Sending packet 5095 SYN
+            Sending packet 5096
+            Sending packet 6000
+            Sending packet 6020
+            Sending packet 6020 Retransmission
+            Sending packet 6050 FIN
+
+    * Client: Receiving packets
+
+            "Receiving packet" [Sequence number]
+
+        Example:
+
+            Receiving packet 5096
+            Receiving packet 6020
 
 - The maximum packet size is 1032 bytes including a header (1024 bytes for the payload)
 
