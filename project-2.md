@@ -10,8 +10,14 @@ title: Project 2
 
 ## Revisions
 
+* **June 5, 2016**: Several updates.
+  [Diff](https://github.com/cawka/cs118-spring2016/compare/master%5E...master)
+* **May 31, 2016**: Update output examples.
+  [Diff](https://github.com/cawka/cs118-spring2016/compare/47c2331c930512ce94cbde31fb5730afece4f03e^...47c2331c930512ce94cbde31fb5730afece4f03e)
 * **May 26, 2016**: Fix inconsistency about header format.  You should use the headers defined in the project definition.
+  [Diff](https://github.com/cawka/cs118-spring2016/compare/fe8a0c3f63782219ca0191e8a76f31bd10bef579^...fe8a0c3f63782219ca0191e8a76f31bd10bef579)
 * **Max 19, 2016**: Small corrections about congestion window sizes
+  [Diff](https://github.com/cawka/cs118-spring2016/compare/f6f9fd492bdca82f47c0ebcac026ef148c974eec^...f6f9fd492bdca82f47c0ebcac026ef148c974eec)
 * **May 18, 2016**: Corrected definition of the maximum packet size
 * **May 9, 2016**: Updated `Vagrantfile` in the project skeleton, updated environment setup instructions, and `tc` examples
 * **May 8, 2016**: Add congestion/receiver window clarifications
@@ -41,7 +47,7 @@ Instead, you can simply implement a single threaded server that starts data tran
 
 - The client and the server will communicate using the User Datagram Protocol (UDP) socket, which does not guarantee data delivery.
 
-- The initial congestion window size starts from 1024 bytes.
+- The initial and **minimum** congestion window size starts from 1024 bytes. **Make sure your congestion windows doesn't go below 1024**
 
 - The fixed retransmission timeout value 500 milliseconds (adaptive RTO for the extra credit)
 
@@ -94,7 +100,10 @@ You can use the following commands to adjust parameters of the emulation:
 
 - You can also change network emulation to re-order packets.  The command below makes 4 out of every 5 packets (1-4, 6-9, ...) to be delayed by 100ms, while every 5th packet (, 10, 15, ...) will be sent immediately:
 
-        tc qdisc change add dev eth1 root netem gap 5 delay 100ms
+        tc qdisc change dev eth1 root netem gap 5 delay 100ms
+
+        # or if you're just adding the rule
+        # tc qdisc add dev eth1 root netem gap 5 delay 100ms
 
 - More examples can be found in [Network Emulation tutorial](http://www.linuxfoundation.org/collaborate/workgroups/networking/netem)
 
@@ -108,7 +117,7 @@ Your server has to adjust the congestion window size depending on the link statu
 - *Congestion Avoidance*: the congestion window size added by one if the congestion window size is larger than `ssthresh`.
 - If a packet is lost as detected by the retransmission timeout
 
-  * The server sets `ssthresh` to 1/2 of current congestion window and
+  * The server sets `ssthresh` to max(1/2 of current congestion window, 1024) and
   * set congestion window to 1024 bytes
 
 In other words, after timeout, the sender adjusts the value of `sshthresh` and moves back to *Slow Start* stage.  As soon as the value of `cwnd` reaches `sshthresh`, it switches to *Congestion Avoidance*.  As soon as packet lost, the server again adjusts `sshthresh`, set `cwnd` to 1, and restart from *Congestion Avoidance* stage.
@@ -140,14 +149,16 @@ are four types of output messages and should follow the formats below.
 
     * Server: Sending data packets
 
-            "Sending data packet" [Sequence number] [CWND] [SSThresh] ("Retransmission")
+            "Sending data packet" [Sequence number] [CWND] [SSThresh] ("Retransmission") ("SYN") ("FIN")
 
         Example:
 
-	        Sending data packet 5096 16384 30720
-	        Sending data packet 6000 16384 30720
-	        Sending data packet 6020 16384 30720
-	        Sending data packet 5096  1024 15360 Retransmission
+	        Sending data packet 5095 1024 1024 SYN
+	        Sending data packet 5096 16384 15360
+	        Sending data packet 6000 16384 15360
+	        Sending data packet 6020 16384 15360
+	        Sending data packet 5096 1024 15360 Retransmission
+	        Sending data packet 6040 16384 15360 FIN
 
     * Server: Receiving ACK packets
 
@@ -184,16 +195,16 @@ are four types of output messages and should follow the formats below.
 
 - The sequence number is given in **the unit of bytes** as well. The maximum sequence number should correspond to **30 Kbytes (30720 bytes)**. You have to reset back the sequence number when it reaches the maximum value.
 
-- Packet retransmission should be triggered when the timer times out.
+- Packet retransmission should be triggered when he timer times out.
 
 - Here are the default values for some variables.
 
     * Maximum packet length (including all your headers): **1032 bytes**
-    * Maximum sequence number: **30720 bytes**
-    * Initial congestion window size: **1024 byte**
+    * Maximum sequence number: <del>**30720**</del> **15360 bytes**
+    * Initial and minimum congestion window size: **1024 byte**
     * Initial slow start threshold: **30720 bytes**
     * Retransmission time out value: **500 ms**
-    * The basic client's receiver window can be always **30720 bytes**, but the server should be able to properly handle cases when the window is reduced.
+    * The basic client's receiver window can be always **<del>30720</del> 15360 bytes**, but the server should be able to properly handle cases when the window is reduced.
 
 - Simple TCP header format
 
@@ -220,6 +231,10 @@ are four types of output messages and should follow the formats below.
     * `S` (SYN, 1 bit): Synchronize sequence numbers (TCP connection establishment)
 
     * `F` (FIN, 1 bit): No more data from sender (TCP connection termination)
+
+- The client should save file to `received.data` in the current working directory.
+
+- After server finishes transmission, it should terminate the connection using FIN/FIN-ACK procedure.  The client should implement TIME-WAIT mechanism, e.g., using 2*RTO as a waiting time.
 
 ## Environment Setup
 
@@ -254,7 +269,7 @@ You can easily create an image in your favourite virtualization engine (VirtualB
 
     To ssh to the client VM
 
-        vagrant ssh 
+        vagrant ssh
         # or vagrant ssh client
 
     To ssh to the server VM
@@ -332,4 +347,3 @@ You can have:
   - creating a proper socket-like abstraction for your transport
   - bidirectional data flow (client will need to send request and server will need to send reply)
   - support for multiple parallel connections
-  
