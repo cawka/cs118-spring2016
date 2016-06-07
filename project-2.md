@@ -175,7 +175,7 @@ are four types of output messages and should follow the formats below.
 
         Example:
 
-            Sending packet 5095 SYN
+            Sending packet SYN
             Sending packet 5096
             Sending packet 6000
             Sending packet 6020
@@ -345,6 +345,7 @@ You can have:
 
 * 1 extra point if you implement RTT estimation and adaptive RTO, as defined in TCP specification
 * 1 extra point if you implement TCP Reno or TCP NewReno fast retransmission and recovery
+* 2 extra points if you implement buffering at client side
 * (**Very complicated. Proceed with caution**) 4 extra points if you replace TCP transport in your project-1 with the transport you have implemented in this project, which should involve:
   - creating a proper socket-like abstraction for your transport
   - bidirectional data flow (client will need to send request and server will need to send reply)
